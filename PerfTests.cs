@@ -23,7 +23,7 @@ namespace AutoPerfReport
 
         public override void run(int n)
         {
-            ElapsedTimeSec = 10.2 * n * n;
+            ElapsedTimeSec = 0.2 * n * n;
         }
     }
 
