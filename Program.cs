@@ -31,8 +31,9 @@ namespace AutoPerfReport
                 new QuickSortPerfTest() 
             };
 
-            var res = RunAllTests(perfTests, 10, 100, 10);
+            var res = runAllTests(perfTests, 10, 100, 10);
             printResults(res);
+            saveResults(res, "res.xls");
         }
 
         private static void printResults(Results res)
@@ -51,7 +52,55 @@ namespace AutoPerfReport
             }
         }
 
-        private static Results RunAllTests(List<PerfTestBase> perfTests, int startCount, int endCount, int stepCount)
+        private static void saveResults(Results res, string filename)
+        {
+            Workbook workbook = new Workbook();
+            Worksheet sheet = workbook.Worksheets[0];
+            sheet.Name = "Perf Test";
+
+            sheet.Range["A1"].Text = "Elapsed Time for sorting...";
+            sheet.Range["A1"].Style.Font.IsBold = true;
+
+            // columns title:
+            sheet.Range["C3"].Text = "N";
+            sheet.Range["C3"].Style.Font.IsBold = true;
+            char col = 'D';
+            foreach (var n in res.Map.Keys)
+            {
+                sheet.Range[col + "3"].Text = n;
+                sheet.Range[col + "3"].Style.Font.IsBold = true;
+                col++;
+            }
+
+            int rowID = 4;
+            foreach (int cnt in res.Map[res.Map.First().Key].Keys)
+            {
+                col = 'C';
+                sheet.Range[col + rowID.ToString()].NumberValue = cnt;
+                sheet.Range[col + rowID.ToString()].NumberFormat = "0.00";
+                col++;
+                foreach (var n in res.Map.Keys)
+                {
+                    sheet.Range[col + rowID.ToString()].NumberValue = res.Map[n][cnt];
+                    sheet.Range[col + rowID.ToString()].NumberFormat = "0.00";
+                    col++;
+                }
+                rowID++;
+            }
+
+            try
+            {
+                workbook.SaveToFile(filename);
+                System.Console.WriteLine("Results written to {0}", filename);
+            }            
+            catch (System.Exception e)
+            {
+                System.Console.WriteLine("Cannot write results to {0}!", filename);
+                System.Console.WriteLine("Reason: {0}", e.Message);
+            }
+        }
+
+        private static Results runAllTests(List<PerfTestBase> perfTests, int startCount, int endCount, int stepCount)
         {
             Results res = new Results(perfTests);
 
@@ -67,16 +116,5 @@ namespace AutoPerfReport
             return res;
         }
 
-        /*
-         *               //Creates workbook
-            Workbook workbook = new Workbook();
-            //Gets first worksheet
-            Worksheet sheet = workbook.Worksheets[0];
-
-            //Writes hello world to A1
-            sheet.Range["A1"].Text = "Hello,World!";
-
-            //Save workbook to disk
-            workbook.SaveToFile("Sample.xls");           */
     }
 }
