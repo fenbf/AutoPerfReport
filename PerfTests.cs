@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace AutoPerfReport
 {
+    class PerfResults
+    {
+        public PerfResults(List<PerfTestBase> perfTests)
+        {
+            Map = new Dictionary<string, Dictionary<int, double>>();
+
+            foreach (var pt in perfTests)
+                Map[pt.Name] = new Dictionary<int, double>();
+        }
+
+        public Dictionary<string, Dictionary<int, double>> Map;
+    }
+
     abstract class PerfTestBase
     {
         public double ElapsedTimeSec {get;protected set;}
