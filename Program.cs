@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-using Spire.Xls.Core;
 using Spire.Xls;
 using Spire.Xls.Charts;
 
