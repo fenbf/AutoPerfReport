@@ -51,7 +51,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;REPORTER_EXPORTS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -62,7 +62,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;REPORTER_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
@@ -71,6 +71,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Reference Include="Spire.Common">
+      <HintPath>C:\Program Files (x86)\e-iceblue\Spire.XLS\Bin\NET4.0\Spire.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License">
+      <HintPath>C:\Program Files (x86)\e-iceblue\Spire.XLS\Bin\NET4.0\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS">
+      <HintPath>C:\Program Files (x86)\e-iceblue\Spire.XLS\Bin\NET4.0\Spire.XLS.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -80,9 +89,7 @@
     <ClCompile Include="ReportBridge.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ManagedReporter\ManagedReporter.csproj">
-      <Project>{f0ddd0a3-24d1-4a37-a02b-6321cf90e7d3}</Project>
-    </ProjectReference>
+    <ClInclude Include="Reporter.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

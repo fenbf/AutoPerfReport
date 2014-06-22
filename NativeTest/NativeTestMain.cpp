@@ -4,9 +4,13 @@
 
 #include "NativeTest.h"
 
+#include "reporter.h"
+
 PerfResults runAllTests(PerfTestList &perfTests, int startCount, int endCount, int stepCount);
 void printResults(PerfResults &res);
-void saveResults(PerfResults &res, std::string filename);
+void saveResults(std::string filename);
+
+reporter::Reporter report;
 
 int main(int argc, char* argv[])
 {
@@ -19,7 +23,7 @@ int main(int argc, char* argv[])
 
 	auto res = runAllTests(perfTests, 10, 200, 10);
 	printResults(res);
-	saveResults(res, "res.xlsx");
+	saveResults("res.xlsx");
 
 	return 0;
 }
@@ -34,6 +38,7 @@ PerfResults runAllTests(PerfTestList &perfTests, int startCount, int endCount, i
 		{
 			pt->run(n);
 			res.Map[pt->name()][n] = pt->elapsedTimeSec();
+			report.AddResult(pt->name().c_str(), n, pt->elapsedTimeSec());
 		}
 	}
 
@@ -56,7 +61,7 @@ void printResults(PerfResults &res)
 	}
 }
 
-void saveResults(PerfResults &res, std::string filename)
+void saveResults(std::string filename)
 {
-	// todo... call managed code...
+	report.SaveToFile(filename.c_str());
 }
