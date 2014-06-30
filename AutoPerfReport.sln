@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeTest", "NativeTest\Na
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReportBridge", "ReportBridge\ReportBridge.vcxproj", "{4BD56493-C6F3-42CF-B359-E4FE171E1EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagedReporter", "ManagedReporter\ManagedReporter.csproj", "{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,16 +49,6 @@ Global
 		{4BD56493-C6F3-42CF-B359-E4FE171E1EEF}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{4BD56493-C6F3-42CF-B359-E4FE171E1EEF}.Release|Win32.ActiveCfg = Release|Win32
 		{4BD56493-C6F3-42CF-B359-E4FE171E1EEF}.Release|Win32.Build.0 = Release|Win32
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{F0DDD0A3-24D1-4A37-A02B-6321CF90E7D3}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
