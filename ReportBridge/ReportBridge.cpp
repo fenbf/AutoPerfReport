@@ -8,31 +8,32 @@ using namespace Spire::Xls;
 using namespace Spire::Xls::Charts;
 using namespace System;
 
-static std::map<std::string, std::map<int, double>> gResults;
 
-void writeData(Workbook ^workbook, String ^%range, String ^%labelRange);
+
+void writeData(reporter::Results *res, Workbook ^workbook, String ^%range, String ^%labelRange);
 void createChart(Workbook ^workbook, String ^%range, String ^%labelRange);
 
 namespace reporter
 {
+	class Results
+	{
+	public:
+		std::map<std::string, std::map<int, double>> _res;
+	};
+
 	Reporter::Reporter()
 	{
-
+		_results = new Results();
 	}
 
 	Reporter::~Reporter()
 	{
-		gResults.clear();
+		delete _results;
 	}
 
-	void Reporter::AddResult(const char *colName, int n, double t)
+	void Reporter::AddResult(const char *colName, int n, double elapsedTime)
 	{
-		gResults[colName][n] = t;
-		/*String^ clistr = gcnew String(name);
-		Workbook ^wb = gcnew Workbook();
-		Worksheet ^sheet = wb->Worksheets[0];
-		sheet->Range["A1"]->Text = clistr;
-		wb->SaveToFile("Sample.xls", ExcelVersion::Version2007);*/
+		_results->_res[colName][n] = elapsedTime;
 	}
 
 	void Reporter::SaveToFile(const char *fname)
@@ -44,7 +45,7 @@ namespace reporter
 
 			String ^range = "";
 			String ^labelRange = "";
-			writeData(workbook, range, labelRange);
+			writeData(_results, workbook, range, labelRange);
 			createChart(workbook, range, labelRange);
 			std::cout << "Workbook with data created!" << std::endl;
 
@@ -60,7 +61,7 @@ namespace reporter
 	}
 }
 
-void writeData(Workbook ^workbook, String ^%range, String ^%labelRange)
+void writeData(reporter::Results *res, Workbook ^workbook, String ^%range, String ^%labelRange)
 {
 	Worksheet ^sheet = workbook->Worksheets[0];
 	sheet->Name = "Perf Test";
@@ -73,7 +74,7 @@ void writeData(Workbook ^workbook, String ^%range, String ^%labelRange)
 	sheet->Range["C3"]->Style->Font->IsBold = true;
 	sheet->Range["C3"]->Style->HorizontalAlignment = HorizontalAlignType::Center;
 	wchar_t col = 'D';
-	for(auto &n : gResults)
+	for(auto &n : res->_res)
 	{
 		String ^tmp = gcnew String(n.first.c_str());
 		String ^rng = gcnew String(col + "3");
@@ -84,16 +85,16 @@ void writeData(Workbook ^workbook, String ^%range, String ^%labelRange)
 	}
 
 	int rowID = 4;
-	for (auto &cnt : gResults[gResults.begin()->first])
+	for (auto &cnt : res->_res[res->_res.begin()->first])
 	{
 		col = 'C';
 		sheet->Range[col + rowID.ToString()]->NumberValue = cnt.first;
 		sheet->Range[col + rowID.ToString()]->NumberFormat = "0";
 		col++;
 
-		for(auto &n : gResults)
+		for (auto &n : res->_res)
 		{
-			sheet->Range[col + rowID.ToString()]->NumberValue = gResults[n.first][cnt.first];
+			sheet->Range[col + rowID.ToString()]->NumberValue = res->_res[n.first][cnt.first];
 			sheet->Range[col + rowID.ToString()]->NumberFormat = "0.00";
 			col++;
 		}
@@ -101,7 +102,7 @@ void writeData(Workbook ^workbook, String ^%range, String ^%labelRange)
 	}
 
 	wchar_t lastCol = 'C';
-	lastCol += (wchar_t)gResults.size();
+	lastCol += (wchar_t)res->_res.size();
 	range = "D3:" + lastCol + (rowID - 1).ToString();
 
 	labelRange = "C4:C" + (rowID - 1).ToString();
